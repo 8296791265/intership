@@ -1,0 +1,101 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+get_ipython().system('pip install selenium')
+
+
+# In[2]:
+
+
+import selenium
+import pandas as pd
+from selenium import webdriver
+import warnings
+warnings.filterwarnings('ignore')
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.webdriver.common.by import By
+import time
+
+
+# In[3]:
+
+
+driver=webdriver.Chrome(r"chromedriver,exe")
+
+
+# In[5]:
+
+
+driver.get("https://www.flipkart.com/")
+
+
+# In[7]:
+
+
+designation=driver.find_element(By.CLASS_NAME,"_3704LK")
+designation.send_keys('sun glass')
+
+
+# In[23]:
+
+
+brand_title=[]
+productdescription_title=[]
+price_title=[]
+
+
+# In[46]:
+
+
+# scropingn brand title from the given page
+brand_tags=driver.find_elements(By.XPATH,'//div[@class="_2WkVRV"]')
+for i in brand_tags[0:100]:
+    brand=i.text
+    brand_title.append(brand)
+    
+
+
+# In[48]:
+
+
+# scropingn pricetitle from the given page
+price_tags=driver.find_elements(By.XPATH,'//div[@class="_30jeq3"]')
+for i in price_tags[0:100]:
+    price=i.text
+    price_title.append(price)
+    
+
+
+# In[56]:
+
+
+# scropingn ProductDescription title from the given page
+productdescription_tags=driver.find_elements(By.XPATH,'//li[@class="_2OosNL"]')
+for i in  productdescription_tags[0:100]:
+    prod=i.text
+    productdescription_title.append(prod)
+    
+
+
+# In[57]:
+
+
+print(len(brand_title),len(price_title),len(productdescription_title))
+
+
+# In[66]:
+
+
+import pandas as pd
+df=pd.DataFrame({'Brand':brand_title,'Title':productdescription_title,'Title':price_title})
+df
+
+
+# In[ ]:
+
+
+
+

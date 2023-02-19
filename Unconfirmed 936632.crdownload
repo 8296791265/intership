@@ -1,0 +1,114 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[36]:
+
+
+get_ipython().system('pip install selenium')
+
+
+# In[37]:
+
+
+import selenium
+import pandas as pd
+from selenium import webdriver
+import warnings
+warnings.filterwarnings('ignore')
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.webdriver.common.by import By
+import time
+
+
+# In[49]:
+
+
+driver=webdriver.Chrome(r"chromedriver,exe")
+
+
+# In[50]:
+
+
+driver.get("https://www.flipkart.com/")
+
+
+# In[51]:
+
+
+designation=driver.find_element(By.CLASS_NAME,"_3704LK")
+designation.send_keys('iphone11 phone')
+
+
+# In[103]:
+
+
+iphone11_rating=[]
+iphone11_reviewsummary=[]
+iphone11_fullreview=[]
+
+
+# In[107]:
+
+
+# scropingn ratingtitle from the given page
+rating_tags=driver.find_elements(By.XPATH,'//div[@class="_3LWZlK"]')
+for i in rating_tags[0:50]:
+    rating=i.text
+    iphone11_rating.append(rating)
+
+
+# In[113]:
+
+
+# scropingn reviewtitle from the given page
+reviewsummary_tags=driver.find_elements(By.XPATH,'//div[@class="_4rR01T"]')
+for i in reviewsummary_tags[0:50]:
+    reviewsummary=i.text
+    iphone11_reviewsummary.append(rating)
+
+
+# In[115]:
+
+
+# scropingn fullreviewtitle from the given page
+fullreview_tags=driver.find_elements(By.XPATH,'//div[@class="_30jeq3 _1_WHN1"]')
+for i in fullreview_tags[0:100]:
+    fullreview=i.text
+    iphone11_fullreview.append(fullreview)
+
+
+# In[109]:
+
+
+print(len(iphone11_rating),len(iphone11_reviewsummary),len(iphone11_fullreview))
+
+
+# In[112]:
+
+
+import pandas as pd
+df=pd.DataFrame({'Rating':iphone11_rating})
+df
+
+
+# In[114]:
+
+
+import pandas as pd
+df=pd.DataFrame({'reviewsummary':iphone11_reviewsummary})
+df
+
+
+# In[116]:
+
+
+import pandas as pd
+df=pd.DataFrame({'fullreview':iphone11_fullreview})
+df
+
+
+# In[ ]:
+
+
+
+

@@ -1,0 +1,99 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[3]:
+
+
+get_ipython().system('pip install selenium')
+
+
+# In[4]:
+
+
+import selenium
+import pandas as pd
+from selenium import webdriver
+import warnings
+warnings.filterwarnings('ignore')
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
+from selenium.webdriver.common.by import By
+import time
+
+
+# In[5]:
+
+
+driver=webdriver.Chrome(r"chromedriver,exe")
+
+
+# In[6]:
+
+
+driver.get("https://www.flipkart.com/")
+
+
+# In[7]:
+
+
+designation=driver.find_element(By.CLASS_NAME,"_3704LK")
+designation.send_keys('lap top')
+
+
+# In[8]:
+
+
+laptop_title=[]
+laptop_price=[]
+laptop_rating=[]
+
+
+# In[9]:
+
+
+# scropingn laptoptitle from the given page
+title_tags=driver.find_elements(By.XPATH,'//div[@class="_4rR01T"]')
+for i in title_tags[0:10]:
+    title=i.text
+    laptop_title.append(title)
+
+
+# In[10]:
+
+
+# scropingn pricetitle from the given page
+price_tags=driver.find_elements(By.XPATH,'//div[@class="_30jeq3 _1_WHN1"]')
+for i in price_tags[0:10]:
+    price=i.text
+    laptop_price.append(price)
+
+
+# In[12]:
+
+
+# scropingn rating title from the given page
+rating_tags=driver.find_elements(By.XPATH,'//div[@class="_3LWZlK"]')
+for i in rating_tags[0:10]:
+    rating=i.text
+    laptop_rating.append(rating)
+    
+
+
+# In[13]:
+
+
+print(len(laptop_title),len(laptop_price),len(laptop_rating))
+
+
+# In[14]:
+
+
+import pandas as pd
+df=pd.DataFrame({'title':laptop_title,'price':laptop_price,'rating':laptop_rating})
+df
+
+
+# In[ ]:
+
+
+
+
